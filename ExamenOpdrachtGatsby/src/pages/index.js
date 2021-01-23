@@ -1,22 +1,101 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link , useStaticQuery,graphql } from "gatsby"
+import Layout from "../components/Layout"
+import SEO from "../components/Seo"
+import {Wrapper,Image, BottomEdgeDown,BottomEdgeUp,Film, Artist} from './pageStyles/pageStyles'
+import {COLORS} from '../constants'
 
-import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
+const IndexPage = () => {
 
-const IndexPage = () => (
+  const {wpcontent:{
+    page:{
+      homeMeta:{
+        description,
+        title,
+        featuredFilm,
+        bannerImage
+      }
+    }
+  }} = useStaticQuery(graphql`
+  query{
+    wpcontent{
+      page(id: "home page", idType: URI) {
+        homeMeta {
+          description
+          title
+          featuredFilm {
+            ... on WPGraphql_Film {
+              id
+              film {
+                title
+                description
+                regiseur
+                review
+                image {
+                  altText
+                  sourceUrl
+                  imageFile{
+                    childImageSharp{
+                     fluid(quality:100) {
+                    ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
+                }
+              }
+            }
+          }
+          bannerImage {
+            altText
+            sourceUrl
+            imageFile{
+              childImageSharp{
+                fluid(quality:100) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  `)
+  return(
   <Layout>
     <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link> <br />
-    <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
+    <Wrapper>
+      <div className="banner">
+        <Image fluid={bannerImage.imageFile.childImageSharp.fluid} alt={bannerImage.altText}/>
+        <div className="inner-div">
+          <p className="header-title">{title}</p>         
+        </div>
+        <BottomEdgeDown color={COLORS.BLACK}></BottomEdgeDown>
+        </div>
+        <div className="description">
+        <p>{description}</p>
+        <BottomEdgeUp color={COLORS.PRIMARY}></BottomEdgeUp>
+        </div>
+        <div className="artists">
+          <h2>Featured Films</h2>
+          <div className="artist-items">
+          {featuredFilm.map(({ film, slug }) => (
+              <Artist key={slug} to={`/${slug}`}>
+                <Image
+                  fluid={film.image.imageFile.childImageSharp.fluid}
+                />
+                <div className="artist-info">
+                  <p>
+                    {film.title}
+                  </p>
+                </div>
+              </Artist>
+              ))}
+        </div>
+      </div>
+    </Wrapper>
   </Layout>
-)
+  )
+}
 
 export default IndexPage
