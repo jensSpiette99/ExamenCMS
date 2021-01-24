@@ -2,7 +2,7 @@ import React from "react"
 import {useStaticQuery, graphql} from "gatsby"
 import Layout from "../components/Layout"
 import SEO from "../components/Seo"
-import {Wrapper,Image, BottomEdgeDown,BottomEdgeUp, Artist} from './pageStyles/pageStyles'
+import {Wrapper,Image, BottomEdgeDown,BottomEdgeUp, Artist} from '../pageStyles/pageStyles'
 import {COLORS} from '../constants'
 
 const IndexPage = () => {
@@ -82,7 +82,7 @@ const IndexPage = () => {
           {featuredFilm.map(({ film, slug }) => (
               <Artist key={slug} to={`/${slug}`}>
                 <Image
-                  fluid={film.image.imageFile.childImageSharp.fluid}
+                  fluid={film.image.imageFile.childImageSharp.fluid} alt={film.altText}
                 />
                 <div className="artist-info">
                   <p>

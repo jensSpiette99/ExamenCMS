@@ -9,7 +9,7 @@ import {
     BottomEdgeDown,
     BottomEdgeUp,
     Artist
-} from "./pageStyles/pageStyles"
+} from "../pageStyles/pageStyles"
 
 import {COLORS} from "../constants"
 
@@ -88,7 +88,7 @@ const FilmsPage = () =>{
         <div className="artist-items">
             {films.map(({node : {film,slug}}) =>(
                 <Artist to={`/${slug}`} key={slug}>
-                    <Image fluid={film.image.imageFile.childImageSharp.fluid} />
+                    <Image fluid={film.image.imageFile.childImageSharp.fluid} alt={film.altText} />
                     <div className="artist-info">
                         <p>{film.title}</p>
                     </div>
