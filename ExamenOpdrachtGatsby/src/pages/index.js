@@ -1,8 +1,8 @@
 import React from "react"
-import { Link , useStaticQuery,graphql } from "gatsby"
+import {useStaticQuery, graphql} from "gatsby"
 import Layout from "../components/Layout"
 import SEO from "../components/Seo"
-import {Wrapper,Image, BottomEdgeDown,BottomEdgeUp,Film, Artist} from './pageStyles/pageStyles'
+import {Wrapper,Image, BottomEdgeDown,BottomEdgeUp, Artist} from './pageStyles/pageStyles'
 import {COLORS} from '../constants'
 
 const IndexPage = () => {
@@ -25,7 +25,7 @@ const IndexPage = () => {
           title
           featuredFilm {
             ... on WPGraphql_Film {
-              id
+              slug
               film {
                 title
                 description
